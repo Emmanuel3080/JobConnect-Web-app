@@ -52,7 +52,7 @@ function App() {
               {/* Auth Pages */}
               <Routes>
                 <Route path='/signup' element={<Signup />} />
-                <Route path='/signin' element={<SignInpage />} />
+                <Route path='/signin' element={<SignInpage />} />         
 
                 {/* Recruiter Route */}
                 <Route path='/company/signup' element={<AdminSignUpPage />} />
