@@ -162,7 +162,7 @@ const Signup = () => {
                         <div className="flex flex-col">
 
                             <label className="text-xs text-slate-200 mb-1 ml-1">
-                                Upload Resume/Photo
+                                Upload Photo
                             </label>
 
                             <div className="flex items-center bg-white/90 border rounded-lg px-3 focus-within:ring-2 focus-within:ring-slate-500">

@@ -40,19 +40,26 @@ function App() {
                 closeButton
                 toastOptions={{
                   style: {
-                    borderRadius: "8px",
-                    fontSize: "15px",
-                    fontWeight: "500",
-                    padding: "12px",
-                    fontFamily: "sans-serif",
-                    boxShadow: "0px 0px 2px purple",
+                    background: "rgba(255, 255, 255, 0.8)", // Slight transparency
+                    backdropFilter: "blur(12px)",           // Glass effect
+                    WebkitBackdropFilter: "blur(12px)",     // Safari support
+                    border: "1px solid rgba(255, 255, 255, 0.3)",
+                    borderRadius: "14px",                   // Matches modern UI curves
+                    fontSize: "14px",
+                    fontWeight: "600",
+                    padding: "16px",
+                    color: "#0f172a",                       // Slate-900 for readability
+                    fontFamily: "inherit",                  // Respects your app's font-family
+                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)",
                   },
-                }} />
+                  className: "my-toast-class", // Optional for Tailwind overrides
+                }}
+              />
 
               {/* Auth Pages */}
               <Routes>
                 <Route path='/signup' element={<Signup />} />
-                <Route path='/signin' element={<SignInpage />} />         
+                <Route path='/signin' element={<SignInpage />} />
 
                 {/* Recruiter Route */}
                 <Route path='/company/signup' element={<AdminSignUpPage />} />

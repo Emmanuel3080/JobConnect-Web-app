@@ -34,7 +34,7 @@ const JobSection = () => {
 
             {!loadingJobs && (
                 <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-5 mt-0">
-                    {jobs.slice(0, 3).map((job) => (
+                    {jobs.slice(0, 5).map((job) => (
                         <JobCard
                             key={job?._id}
                             title={job?.title}

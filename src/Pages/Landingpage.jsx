@@ -3,11 +3,11 @@ import pic from "../assets/hr-expert-reading-files-identifying-right-candidates-
 
 const LandingPage = () => {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-[70vh] bg-white">
             {/* Hero Section */}
             <section
-                className="relative overflow-hidden py-10 lg:py-32 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${pic})` }}
+ className="relative overflow-hidden py-4 lg:py-32 bg-cover bg-center bg-no-repeat"
+  style={{ backgroundImage: `url(${pic})` }}
             >
                 <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
 
@@ -28,11 +28,11 @@ const LandingPage = () => {
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                                <button className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 hover:shadow-lg active:scale-95 transition-all">
-                                    Find Jobs
+                                <button className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 hover:shadow-lg active:scale-95 transition-all cursor-pointer">
+                                    <a href="/jobs"> Find Jobs</a>
                                 </button>
                                 <button className="bg-white/10 backdrop-blur-md border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/20 active:scale-95 transition-all">
-                                    Post a Job
+                                    <a href="/company" target='_blank'>  Post a Job</a>
                                 </button>
                             </div>
 

@@ -51,7 +51,7 @@ const Header = () => {
                         className="flex items-center gap-2 px-5 py-2 text-sm font-bold text-red-600 bg-red-50 border-2 border-red-100 rounded-full hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-200 active:scale-95"
                     >
                         <i className="fa fa-sign-out-alt"></i>
-                        Logout
+                        <a href="/signin">Logout</a>
                     </button>
                 </div>
 

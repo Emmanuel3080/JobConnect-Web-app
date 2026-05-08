@@ -5,6 +5,8 @@ import { jobContext } from '../Context/JobContext'
 import JobCard from '../Components/JobCard'
 import Landingpage from '../Pages/Landingpage'
 import JobSection from '../Components/JobSection'
+import WhatWeOffer from '../Components/WhatWeoffer'
+import Footer from '../Components/Footer'
 
 const EmployeeDash = () => {
 
@@ -18,10 +20,15 @@ const EmployeeDash = () => {
     <div>
       <Header />
       <Landingpage />
-    <JobSection />
-    
+      <JobSection />
 
-     
+      <WhatWeOffer />
+
+
+      <Footer />
+
+
+
     </div>
   )
 }
