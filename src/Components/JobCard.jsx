@@ -18,7 +18,7 @@ const JobCard = ({ title, company, location, salary, jobType, remote, id }) => {
 
       <div className="space-y-2 mb-6">
         <div className="flex items-center text-slate-600 group-hover:text-slate-900 transition-colors">
-          <span className="bg-slate-100 p-1.5 rounded-lg mr-3 text-lg"></span>
+          <span className="bg-slate-100 p-1.5 rounded-lg mr-3 text-lg"> </span>
           <span className="font-medium">{company}</span>
         </div>
         <div className="flex items-center text-slate-400 text-sm">
