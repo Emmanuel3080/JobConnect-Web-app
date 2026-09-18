@@ -26,22 +26,14 @@ const Signup = () => {
 
     const { loadiing,
         handleSignUp } = useContext(authContext)
-
-
-
-
-
     const togglePassword = () => {
         setPasswordVisible(!passwordVisible)
     }
-
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(employeeSchema)
     })
-
     const checkErrors = (err) => {
         console.log(errors);
-
         const firstError = Object.values(err)[0].message;
         toast.error(firstError);
     };
