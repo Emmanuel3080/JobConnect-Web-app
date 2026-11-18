@@ -1,5 +1,6 @@
-import { createContext, useState } from "react";
-import { data, useNavigate } from "react-router-dom";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export const recruiterAuthContext = createContext()
@@ -33,7 +34,7 @@ const RecruiterAuthProvider = ({ children }) => {
 
             }
             else {
-                toast.error(`${data.Message}` || "Failed to Signup")
+                toast.error(data.Message || "Failed to Signup")
             }
         } catch (error) {
             console.log(error);
@@ -67,7 +68,7 @@ const RecruiterAuthProvider = ({ children }) => {
                 localStorage.setItem("RecruiterAccessToken", data.accessToken)
             }
             else {
-                toast.error(`${data.Message}` || "Unable to SignIn")
+                toast.error(data.Message || "Unable to SignIn")
             }
 
         } catch (error) {
@@ -79,7 +80,7 @@ const RecruiterAuthProvider = ({ children }) => {
         }
     }
 
-    const isRecruterAuthenticated = async () => {
+    const isRecruterAuthenticated = useCallback(async () => {
         const token = localStorage.getItem("RecruiterAccessToken")
         if (!token) {
             return false
@@ -102,9 +103,9 @@ const RecruiterAuthProvider = ({ children }) => {
             }
         } catch (error) {
             console.log(error);
-
+            return false
         }
-    }
+    }, [baseUrl])
 
     const authValue = {
         loading,

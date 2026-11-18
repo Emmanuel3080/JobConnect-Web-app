@@ -1,4 +1,5 @@
-import { Children, createContext, useState } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -92,7 +93,7 @@ const AuthProvider = ({ children }) => {
             const data = await response.json()
             console.log(data);
             if (response.ok) {
-                toast.success(`Welcome onboard ${data.user.email}` || "Sign In Successful")
+                toast.success(data.user?.email ? `Welcome onboard ${data.user.email}` : "Sign In Successful")
                 navigate("/")
                 localStorage.setItem("AccessToken", data.accessToken)
             }
@@ -110,7 +111,7 @@ const AuthProvider = ({ children }) => {
 
 
 
-    const isUserAuthenticated = async () => {
+    const isUserAuthenticated = useCallback(async () => {
         const token = localStorage.getItem("AccessToken")
         if (!token) {
             return false
@@ -134,9 +135,9 @@ const AuthProvider = ({ children }) => {
 
         } catch (error) {
             console.log(error);
-
+            return false
         }
-    }
+    }, [baseUrl])
 
 
 

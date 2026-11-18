@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -19,7 +20,7 @@ const JobProvider = ({ children }) => {
 
     const baseUrl = import.meta.env.VITE_API_URL
 
-    const fetchJobs = async () => {
+    const fetchJobs = useCallback(async () => {
         setLoadingJobs(true)
         try {
             const response = await fetch(`${baseUrl}/employee/all/jobs`, {
@@ -40,11 +41,11 @@ const JobProvider = ({ children }) => {
         finally {
             setLoadingJobs(false)
         }
-    }
+    }, [baseUrl])
 
 
 
-    const getSingleJob = async (id) => {
+    const getSingleJob = useCallback(async (id) => {
         try {
             const response = await fetch(`${baseUrl}/employee/job/${id}`,
                 {
@@ -63,7 +64,7 @@ const JobProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
         }
-    }
+    }, [baseUrl])
 
 
 
@@ -132,7 +133,7 @@ const JobProvider = ({ children }) => {
 
             }
             else {
-                toast.error(`${data.Message} ` || "Error Applying Job")
+                toast.error(data.Message || "Error Applying Job")
             }
         } catch (error) {
             console.log(error)
@@ -143,7 +144,7 @@ const JobProvider = ({ children }) => {
     }
 
 
-    const getApplicationsJob = async (id) => {
+    const getApplicationsJob = useCallback(async (id) => {
 
         try {
             const response = await fetch(`${baseUrl}/company/jobs/applicants/${id}`,
@@ -164,7 +165,7 @@ const JobProvider = ({ children }) => {
         } catch (error) {
             console.log(error);
         }
-    }
+    }, [baseUrl])
 
 
     // const get

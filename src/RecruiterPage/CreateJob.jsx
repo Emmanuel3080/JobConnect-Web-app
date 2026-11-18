@@ -1,10 +1,19 @@
 import React, { useContext } from "react";
-import { recruiterAuthContext } from "../Context/RecruiterContext";
-import * as yup from "yup"
-import { yupResolver } from "@hookform/resolvers/yup"
+import { Link } from "react-router-dom";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import {
+  ArrowLeft,
+  Briefcase,
+  FileText,
+  MapPin,
+  PlusCircle,
+} from "lucide-react";
+import { recruiterAuthContext } from "../Context/RecruiterContext";
 import { jobContext } from "../Context/JobContext";
+import logo from "../assets/jobconnect_logo.svg";
 
 const jobValidationSchema = yup.object().shape({
   title: yup.string().required("Job title is required"),
@@ -13,7 +22,10 @@ const jobValidationSchema = yup.object().shape({
   location: yup.string().required("Job location is required"),
   jobType: yup
     .string()
-    .oneOf(["Full-time", "Part-time", "Internship", "Contract"], "Invalid job type")
+    .oneOf(
+      ["Full-time", "Part-time", "Internship", "Contract"],
+      "Invalid job type"
+    )
     .default("Full-time"),
   salary: yup.string().required("Salary is Required"),
   company: yup.string().required("Company name is required"),
@@ -26,21 +38,21 @@ const jobValidationSchema = yup.object().shape({
 
 const CreateJob = () => {
   const { userInfo } = useContext(recruiterAuthContext);
-  const { postJob, postingJob } = useContext(jobContext)
+  const { postJob, postingJob } = useContext(jobContext);
 
-
-
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(jobValidationSchema)
-  })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(jobValidationSchema),
+  });
 
   const checkErrors = (err) => {
     console.log(errors);
-    const firstError = Object.values(err)[0].message;
-    toast.error(firstError);
+    const firstError = Object.values(err)[0]?.message;
+    if (firstError) toast.error(firstError);
   };
-
-
 
   const submitData = async (data) => {
     try {
@@ -50,80 +62,122 @@ const CreateJob = () => {
       toast.error("Something went wrong while posting the job.");
     }
   };
+
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
-      <div className="sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 p-6 rounded-2xl flex items-center justify-between shadow-2xl">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-slate-400 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
-                <i className="fa fa-shield-alt text-indigo-400"></i> Recruiter Portal
+    <div className="min-h-screen bg-[#F4F1EA] text-[#14243A] pb-16">
+      {/* Top Sticky Midnight Navy Recruiter Bar */}
+      <header className="sticky top-0 z-40 bg-[#14243A] border-b border-[#213B50] text-[#FFFCF6]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Link to="/company" className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-[#FFFCF6] p-1 flex items-center justify-center">
+                <img
+                  src={logo}
+                  alt="JobConnect"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <span className="text-lg font-extrabold tracking-tight text-[#FFFCF6]">
+                Job<span className="text-[#39AFA0]">Connect</span>
               </span>
-              <span className="h-2 w-2 bg-indigo-500 rounded-full animate-ping"></span>
-            </div>
-            <h1 className="text-white text-2xl font-black tracking-tight">
-              Post <span className="text-indigo-400">New Job</span>
-            </h1>
+            </Link>
+            <span className="text-[11px] font-semibold bg-[#213B50] text-[#D6A875] border border-[#D6A875]/40 px-2.5 py-0.5 rounded-full">
+              Post New Job
+            </span>
           </div>
 
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex flex-col items-end text-right">
-              <div className="flex items-center gap-1.5">
-                <p className="text-slate-400 text-[10px] uppercase font-bold tracking-widest">
-                  Hiring Manager
-                </p>
-                <span className="text-indigo-400 text-[10px] font-bold uppercase underline decoration-indigo-500/30 underline-offset-4">
-                  @{userInfo?.companyName || "Company"}
-                </span>
-              </div>
-              <p className="text-white text-sm font-semibold mt-0.5 tracking-wide">
-                <i className="fa fa-user-circle mr-1 text-slate-500"></i> {userInfo?.name || "Admin"}
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:block text-right">
+              <p className="text-xs font-bold text-[#FFFCF6]">
+                {userInfo?.name || "Recruiter"}
+              </p>
+              <p className="text-[11px] text-[#E5DED2]/70">
+                {userInfo?.companyName || "Hiring Team"}
               </p>
             </div>
-            <a
-              href="/company"
-              className="group flex items-center gap-2 bg-white/10 hover:bg-indigo-500/20 text-white px-5 py-2.5 rounded-xl border border-white/10 hover:border-indigo-500/50 transition-all text-sm font-medium"
+            <Link
+              to="/company"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold text-[#FFFCF6] bg-[#213B50] border border-[#39AFA0]/30 hover:border-[#39AFA0] transition-colors"
             >
-              <i className="fa fa-th-large group-hover:rotate-6 transition-transform"></i>
-              Dashboard
-            </a>
+              <ArrowLeft className="w-3.5 h-3.5 text-[#39AFA0]" strokeWidth={1.5} />
+              <span>Back to ATS</span>
+            </Link>
           </div>
         </div>
-      </div>
+      </header>
 
-      <main className="max-w-7xl mx-auto px-4 mt-8">
-        <form className="space-y-8" onSubmit={handleSubmit(submitData, checkErrors)}>
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div className="mb-6">
+          <h1 className="text-2xl font-extrabold text-[#14243A] tracking-tight">
+            Create a New Job Opening
+          </h1>
+          <p className="text-xs sm:text-sm text-[#526174] mt-0.5">
+            Define the role details, compensation band, and required skills for candidates.
+          </p>
+        </div>
 
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all hover:shadow-md">
-            <div className="px-8 py-5 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <form
+          className="space-y-6"
+          onSubmit={handleSubmit(submitData, checkErrors)}
+        >
+          {/* Section 1: Core Role Identity */}
+          <section className="bg-[#FFFCF6] rounded-xl border border-[#E5DED2] overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#E5DED2] bg-[#F4F1EA]">
+              <h2 className="text-sm font-bold text-[#14243A] flex items-center gap-2">
+                <Briefcase className="w-4 h-4 text-[#39AFA0]" strokeWidth={1.5} />
+                Job Details
+              </h2>
+            </div>
+
+            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input
+                label="Job Title *"
+                placeholder="e.g. Senior Frontend Engineer"
+                {...register("title")}
+              />
+              <Input
+                label="Company Name *"
+                defaultValue={userInfo?.companyName || ""}
+                placeholder={userInfo?.companyName || "Enter company name"}
+                {...register("company")}
+              />
+              <Input
+                label="Category"
+                placeholder="e.g. Engineering, Design, Product"
+                {...register("category")}
+              />
+              <Input
+                label="Salary Range *"
+                placeholder="e.g. ₦500k - ₦800k or $140k - $170k"
+                {...register("salary")}
+              />
+            </div>
+          </section>
+
+          {/* Section 2: Location & Work Arrangement */}
+          <section className="bg-[#FFFCF6] rounded-xl border border-[#E5DED2] overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#E5DED2] bg-[#F4F1EA]">
+              <h2 className="text-sm font-bold text-[#14243A] flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-[#39AFA0]" strokeWidth={1.5} />
+                Location & Arrangement
+              </h2>
+            </div>
+
+            <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+              <Input
+                label="Location *"
+                placeholder="e.g. Lagos, Nigeria"
+                {...register("location")}
+              />
+
               <div>
-                <h2 className="text-lg font-bold text-slate-800"><i className="fa fa-file-alt mr-2 text-indigo-500"></i> Job Details</h2>
-                <p className="text-slate-500 text-xs">Core identity of the role.</p>
-              </div>
-            </div>
-
-            <div className="p-8 space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <Input label="Job Title *" icon="fa-briefcase" placeholder="e.g. Senior Product Designer" {...register("title")} />
-                <Input label="Company Name *" icon="fa-building" {...register("company")} placeholder={userInfo?.companyName || "Enter company name"} />
-                <Input label="Category" icon="fa-tag" placeholder="e.g. Design, Engineering"  {...register("category")} />
-                <Input label="Salary Range" icon="fa-money-bill-wave" placeholder="e.g. ₦500k - ₦800k" {...register("salary")} />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all hover:shadow-md">
-            <div className="px-8 py-5 border-b border-slate-100 bg-slate-50/50">
-              <h2 className="text-lg font-bold text-slate-800"><i className="fa fa-map-marker-alt mr-2 text-indigo-500"></i> Location & Type</h2>
-            </div>
-            <div className="p-8 grid md:grid-cols-3 gap-6 items-end">
-              <Input label="Location *" icon="fa-globe" placeholder="Ibadan, Nigeria" {...register("location")} />
-
-              <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                  <i className="fa fa-clock mr-1"></i> Job Type
+                <label className="block text-xs font-semibold text-[#14243A] mb-1.5">
+                  Employment Type
                 </label>
-                <select className="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all cursor-pointer hover:border-slate-300" {...register("jobType")}>
+                <select
+                  className="w-full px-3.5 py-2.5 border border-[#E5DED2] rounded-lg bg-[#F4F1EA] focus:bg-[#FFFCF6] focus:border-[#39AFA0] text-xs sm:text-sm text-[#14243A] outline-none transition-colors cursor-pointer"
+                  {...register("jobType")}
+                >
                   <option>Full-time</option>
                   <option>Part-time</option>
                   <option>Internship</option>
@@ -132,67 +186,119 @@ const CreateJob = () => {
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                  <i className="fa fa-wifi mr-1"></i> Remote Position
+                <label className="block text-xs font-semibold text-[#14243A] mb-1.5">
+                  Remote Position
                 </label>
-                <select className="w-full px-4 py-3 border border-slate-200 rounded-xl bg-white text-sm focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all cursor-pointer hover:border-slate-300" {...register("remote")}>
+                <select
+                  className="w-full px-3.5 py-2.5 border border-[#E5DED2] rounded-lg bg-[#F4F1EA] focus:bg-[#FFFCF6] focus:border-[#39AFA0] text-xs sm:text-sm text-[#14243A] outline-none transition-colors cursor-pointer"
+                  {...register("remote")}
+                >
                   <option value="false">No (On-site)</option>
                   <option value="true">Yes (Remote)</option>
                 </select>
               </div>
             </div>
-          </div>
+          </section>
 
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all hover:shadow-md">
-            <div className="px-8 py-5 border-b border-slate-100 bg-slate-50/50">
-              <h2 className="text-lg font-bold text-slate-800"><i className="fa fa-pen-nib mr-2 text-indigo-500"></i> Role Description</h2>
+          {/* Section 3: Requirements, Skills & Description */}
+          <section className="bg-[#FFFCF6] rounded-xl border border-[#E5DED2] overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#E5DED2] bg-[#F4F1EA]">
+              <h2 className="text-sm font-bold text-[#14243A] flex items-center gap-2">
+                <FileText className="w-4 h-4 text-[#39AFA0]" strokeWidth={1.5} />
+                Role Description & Qualifications
+              </h2>
             </div>
-            <div className="p-8 space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <textarea rows="6"  label="Key Requirements *" icon="fa-list-check" className="px-4 py-4 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all resize-none hover:border-slate-300 bg-white"  placeholder="e.g. 3+ years React experience"   {...register("requirements", {
-                  setValueAs: text => text.split(",").map(item => item.trim())
-                })} />
-                <Input label="Preferred Skills" icon="fa-star" placeholder="e.g. Tailwind CSS, TypeScript"  {...register("skills", {
-                  setValueAs: text => text.split(",").map(item => item.trim())
-                })} />
-              </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <Input type="date" label="Application Deadline" icon="fa-calendar-alt" {...register("applicationDeadline")} />
+            <div className="p-6 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-[#14243A] mb-1.5">
+                    Key Requirements (comma-separated)
+                  </label>
+                  <textarea
+                    rows="4"
+                    placeholder="e.g. 3+ years React experience, Strong TypeScript skills"
+                    className="w-full px-3.5 py-2.5 border border-[#E5DED2] rounded-lg bg-[#F4F1EA] focus:bg-[#FFFCF6] focus:border-[#39AFA0] text-xs sm:text-sm text-[#14243A] placeholder:text-[#7C8793] outline-none transition-colors resize-none"
+                    {...register("requirements", {
+                      setValueAs: (text) =>
+                        typeof text === "string"
+                          ? text
+                              .split(",")
+                              .map((item) => item.trim())
+                              .filter(Boolean)
+                          : Array.isArray(text)
+                            ? text
+                            : [],
+                    })}
+                  />
+                </div>
+
+                <div className="space-y-4">
+                  <Input
+                    label="Preferred Skills (comma-separated)"
+                    placeholder="e.g. React, Tailwind CSS, TypeScript"
+                    {...register("skills", {
+                      setValueAs: (text) =>
+                        typeof text === "string"
+                          ? text
+                              .split(",")
+                              .map((item) => item.trim())
+                              .filter(Boolean)
+                          : Array.isArray(text)
+                            ? text
+                            : [],
+                    })}
+                  />
+
+                  <Input
+                    type="date"
+                    label="Application Deadline"
+                    {...register("applicationDeadline")}
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-                  <i className="fa fa-align-left mr-1"></i> Full Job Description *
+                <label className="block text-xs font-semibold text-[#14243A] mb-1.5">
+                  Full Job Description *
                 </label>
                 <textarea
                   rows="6"
-                  placeholder="Describe the day-to-day responsibilities and company culture..."
-                  className="w-full px-4 py-4 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all resize-none hover:border-slate-300 bg-white" {...register("description")}
-                ></textarea>
+                  placeholder="Describe the day-to-day responsibilities, team structure, and impact of this role..."
+                  className="w-full px-3.5 py-2.5 border border-[#E5DED2] rounded-lg bg-[#F4F1EA] focus:bg-[#FFFCF6] focus:border-[#39AFA0] text-xs sm:text-sm text-[#14243A] placeholder:text-[#7C8793] outline-none transition-colors resize-none"
+                  {...register("description")}
+                />
               </div>
             </div>
-          </div>
+          </section>
 
-          <div className="flex items-center justify-end gap-4 pt-4">
+          <div className="flex items-center justify-end gap-3">
+            <Link
+              to="/company"
+              className="px-4 py-2.5 rounded-xl text-xs font-semibold text-[#526174] hover:text-[#14243A] border border-[#E5DED2] bg-[#FFFCF6]"
+            >
+              Cancel
+            </Link>
             <button
-              type='submit'
-              className={`
-     gap-2 px-10 py-2 rounded-lg text-white text-lg
-    transition
-    ${postingJob ? "bg-gray-500 cursor-not-allowed"  // disabled style
-                  : "bg-slate-900 hover:bg-slate-700 cursor-pointer" // normal style
-                }`}
+              type="submit"
               disabled={postingJob}
-
-            >{postingJob ? (
-              <>
-                Posting Job
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              </>
-            ) : (
-              " Publish Job"
-            )}
+              className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors ${
+                postingJob
+                  ? "bg-[#7C8793] text-white cursor-not-allowed"
+                  : "bg-[#14243A] text-[#FFFCF6] hover:bg-[#213B50] cursor-pointer"
+              }`}
+            >
+              {postingJob ? (
+                <>
+                  <span>Publishing Job...</span>
+                  <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                </>
+              ) : (
+                <>
+                  <PlusCircle className="w-4 h-4 text-[#39AFA0]" strokeWidth={1.5} />
+                  <span>Publish Job</span>
+                </>
+              )}
             </button>
           </div>
         </form>
@@ -201,18 +307,19 @@ const CreateJob = () => {
   );
 };
 
-const Input = ({ label, icon, ...props }) => (
+const Input = React.forwardRef(({ label, ...props }, ref) => (
   <div className="w-full">
-    <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2">
-      {icon && <i className={`fa ${icon} mr-1 text-slate-400`}></i>} {label}
+    <label className="block text-xs font-semibold text-[#14243A] mb-1.5">
+      {label}
     </label>
-    <div className="relative">
-      <input
-        {...props}
-        className="w-full px-4 py-3 border border-slate-200 rounded-xl text-sm transition-all outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 hover:border-slate-300 bg-white"
-      />
-    </div>
+    <input
+      ref={ref}
+      {...props}
+      className="w-full px-3.5 py-2.5 border border-[#E5DED2] rounded-lg bg-[#F4F1EA] focus:bg-[#FFFCF6] focus:border-[#39AFA0] text-xs sm:text-sm text-[#14243A] placeholder:text-[#7C8793] outline-none transition-colors"
+    />
   </div>
-);
+));
+
+Input.displayName = "Input";
 
 export default CreateJob;

@@ -1,5 +1,96 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Official Midnight Navy + Warm Sand + Teal Design Tokens */
+    --bg-canvas: #F4F1EA;
+    --bg-elevated: #FFFCF6;
+    --bg-inset: #ECE7DC;
+    --brand-primary: #14243A;
+    --brand-secondary: #213B50;
+    --brand-accent: #39AFA0;
+    --brand-highlight: #D6A875;
+    --text-primary: #14243A;
+    --text-secondary: #526174;
+    --text-muted: #7C8793;
+    --border-primary: #E5DED2;
+
+    color-scheme: light;
+    accent-color: #39AFA0;
+    scrollbar-color: #C9C0B1 #F4F1EA;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #F4F1EA;
+    color: #14243A;
+    margin: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.02em;
+    color: #14243A;
+  }
+}
+
+.font-mono-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.pill-balance {
+  display: flex;
+  flex-wrap: wrap;
+  flex-wrap: balance;
+}
+
+.scrollable-pane {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+}
+
+/* Scroll container on desktop only (lg); flows with the page on mobile
+   so there is never a nested scrollbar on small screens. */
+@media (min-width: 1024px) {
+  .scrollable-pane-lg {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+  }
+}
+
+@supports not (scrollbar-color: auto) {
+  .scrollable-pane::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollable-pane::-webkit-scrollbar-thumb {
+    background: #C9C0B1;
+    border-radius: 4px;
+  }
+  .scrollable-pane::-webkit-scrollbar-track {
+    background: #F4F1EA;
+  }
+}
+
+/* Native modal dialog scroll containment */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgba(20, 36, 58, 0.55);
+  backdrop-filter: blur(4px);
+}

@@ -1,37 +1,22 @@
-import React, { useContext, useEffect } from 'react'
-import { authContext } from '../Context/AuthContext'
-import Header from '../Common/Header'
-import { jobContext } from '../Context/JobContext'
-import JobCard from '../Components/JobCard'
-import Landingpage from '../Pages/Landingpage'
-import JobSection from '../Components/JobSection'
-import WhatWeOffer from '../Components/WhatWeoffer'
-import Footer from '../Components/Footer'
+import React from "react";
+import Header from "../Common/Header";
+import Landingpage from "../Pages/Landingpage";
+import JobSection from "../Components/JobSection";
+import WhatWeOffer from "../Components/WhatWeoffer";
+import Footer from "../Components/Footer";
 
 const EmployeeDash = () => {
-
-  const { userInfo } = useContext(authContext)
-
-  const { jobs, fetchJobs, loadingJobs } = useContext(jobContext)
-  useEffect(() => {
-    fetchJobs()
-  }, [])
   return (
-    <div>
+    <div className="min-h-screen bg-[#F4F1EA] text-[#14243A] flex flex-col">
       <Header />
-      <Landingpage />
-      <JobSection />
-
-      <WhatWeOffer />
-
-
+      <main className="flex-1">
+        <Landingpage />
+        <JobSection />
+        <WhatWeOffer />
+      </main>
       <Footer />
-
-
-
     </div>
-  )
-}
+  );
+};
 
-
-export default EmployeeDash    
+export default EmployeeDash;
