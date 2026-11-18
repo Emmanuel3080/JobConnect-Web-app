@@ -220,10 +220,7 @@ const SignInPage = () => {
             </p>
           </form>
 
-          <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#7C8793]">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#39AFA0]" strokeWidth={1.5} />
-            <span>Protected by JobConnect Candidate Authentication</span>
-          </div>
+        
         </div>
       </div>
     </div>
